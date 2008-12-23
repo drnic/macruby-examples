@@ -1,11 +1,8 @@
 require 'hotcocoa'
-
-# Replace the following code with your own hotcocoa code
+include HotCocoa
 
 class Application
 
-  include HotCocoa
-  
   def start
     application :name               => "Download And Scrape Html" do |app|
       app.delegate                  = self
@@ -28,31 +25,6 @@ class Application
   
   def connection(connection, didReceiveData:didReceiveData)
     @didReceiveData.text = "connection_didReceiveData"
-  end
-  
-  
-  # file/open
-  def on_open(menu)
-  end
-  
-  # file/new 
-  def on_new(menu)
-  end
-  
-  # help menu item
-  def on_help(menu)
-  end
-  
-  # This is commented out, so the minimize menu item is disabled
-  #def on_minimize(menu)
-  #end
-  
-  # window/zoom
-  def on_zoom(menu)
-  end
-  
-  # window/bring_all_to_front
-  def on_bring_all_to_front(menu)
   end
 end
 
