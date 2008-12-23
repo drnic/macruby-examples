@@ -7,14 +7,14 @@ class Application
   include HotCocoa
   
   def start
-    application :name => "Download And Scrape Html" do |app|
-      app.delegate = self
-      window :frame => [100, 100, 500, 500], :title => "Download And Scrape Html" do |win|
-        @l = label(:text => "Hello from HotCocoa", :layout => {:start => false})
-        win << @l
-        url = NSURL.URLWithString("http://github.com/drnic")
-        request = NSURLRequest.requestWithURL(url)
-        # NSURLConnection.alloc.initWithRequest_delegate_startImmediately(request, self)
+    application :name               => "Download And Scrape Html" do |app|
+      app.delegate                  = self
+      window :frame                 => [100, 100, 500, 500], :title => "Download And Scrape Html" do |win|
+        win << label(:text          => "Hello from HotCocoa", :layout => {:start => false})
+        win << (@didReceiveResponse = label(:text => "...", :layout => {:start => false}, :frame => [0, 0, 300, 20]))
+        win << (@didReceiveData     = label(:text => "...", :layout => {:start => false}, :frame => [0, 0, 300, 20]))
+        url                         = NSURL.URLWithString("http://github.com/drnic")
+        request                     = NSURLRequest.requestWithURL(url)
         NSURLConnection.connectionWithRequest(request, delegate: self)
         win.will_close { exit }
       end
@@ -23,11 +23,11 @@ class Application
   
   
   def connection(connection, didReceiveResponse:didReceiveResponse)
-    @l.text = "connection_didReceiveResponse"
+    @didReceiveResponse.text = "connection_didReceiveResponse"
   end
   
   def connection(connection, didReceiveData:didReceiveData)
-    @l.text = "connection_didReceiveData"
+    @didReceiveData.text = "connection_didReceiveData"
   end
   
   
