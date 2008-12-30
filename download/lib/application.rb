@@ -23,6 +23,14 @@ class Application
     @connection = NSURLConnection.connectionWithRequest(request, delegate: delegator)
   end
   
+  def connectionDidFinishLoading(connection)
+    @status.text  = "Data totally retrieved"
+    page          = NSString.alloc.initWithData(@receivedData, encoding:NSUTF8StringEncoding)
+    @receivedData = nil
+    @data.text    = page
+    NSLog("data fully received")
+  end
+  
   # Deal with the data response
   # 
   # Note: in Ruby, the method name is the method signature
@@ -34,10 +42,11 @@ class Application
   end
   
   def connection(connection, didReceiveData:receivedData)
-    @status.text  = "Data retrieved"
-    page          = NSString.alloc.initWithData(receivedData, encoding:NSUTF8StringEncoding)
-    NSLog(page)
-    @data.text    = page
+    @status.text  = "Data being retrieved"
+    # Initiate an ivar to store the received data
+    @receivedData ||= NSMutableData.new
+    @receivedData.appendData(receivedData)
+    NSLog("data chunck received")
   end
 end
 
